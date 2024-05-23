@@ -1,4 +1,5 @@
 #include "secp256k1/include/secp256k1.h"
+#include "secp256k1/include/secp256k1_ecdh.h"
 #include "secp256k1/include/secp256k1_recovery.h"
 
 #include <assert.h>
@@ -206,4 +207,21 @@ btc_bool btc_ecc_der_to_compact(unsigned char* sigder_in, size_t sigder_len, uns
         return false;
 
     return secp256k1_ecdsa_signature_serialize_compact(secp256k1_ctx, sigcomp_out, &sig);
+}
+
+
+btc_bool btc_ecc_ecdh(const uint8_t* privkey, const uint8_t* public_key, btc_bool compressed, unsigned char* output)
+{
+    secp256k1_pubkey pubkey;
+
+    assert(secp256k1_ctx);
+    if (!secp256k1_ec_pubkey_parse(secp256k1_ctx, &pubkey, public_key, compressed ? 33 : 65)) {
+        return false;
+    }
+
+    if (!secp256k1_ecdh(secp256k1_ctx, output, &pubkey, privkey, NULL, NULL)) {
+	    return false;
+    }
+
+    return true;
 }

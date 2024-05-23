@@ -3,6 +3,7 @@
  The MIT License (MIT)
 
  Copyright (c) 2015 Jonas Schnelli
+ Copyright (c) 2024 Mark Naughton <mark@marknaughton.com>
 
  Permission is hereby granted, free of charge, to any person obtaining
  a copy of this software and associated documentation files (the "Software"),
@@ -72,6 +73,8 @@ LIBBTC_API btc_bool btc_ecc_der_to_compact(unsigned char* sigder_in, size_t sigd
 
 //!verify DER signature with public key
 LIBBTC_API btc_bool btc_ecc_verify_sig(const uint8_t* public_key, btc_bool compressed, const uint256 hash, unsigned char* sigder, size_t siglen);
+
+LIBBTC_API btc_bool btc_ecc_ecdh(const uint8_t* privkey, const uint8_t* public_key, btc_bool compressed, unsigned char* output);
 
 LIBBTC_END_DECL
 

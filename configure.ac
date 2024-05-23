@@ -134,7 +134,7 @@ AM_CONDITIONAL([WITH_WALLET], [test "x$with_wallet" = "xyes"])
 AM_CONDITIONAL([WITH_NET], [test "x$with_net" = "xyes"])
 AM_CONDITIONAL([WITH_LOGDB], [test "x$with_tools" = "xyes" -o "x$with_wallet" = "xyes"])
 
-ac_configure_args="${ac_configure_args} --enable-module-recovery"
+ac_configure_args="${ac_configure_args} --enable-module-recovery --enable-module-ecdh"
 AC_CONFIG_SUBDIRS([src/secp256k1])
 
 dnl make sure nothing new is exported so that we don't break the cache
