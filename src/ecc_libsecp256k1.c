@@ -207,3 +207,23 @@ btc_bool btc_ecc_der_to_compact(unsigned char* sigder_in, size_t sigder_len, uns
 
     return secp256k1_ecdsa_signature_serialize_compact(secp256k1_ctx, sigcomp_out, &sig);
 }
+
+btc_bool btc_ecc_serialize_pubkey(const uint8_t* public_key, btc_bool compressed, unsigned char* output)
+{
+    secp256k1_pubkey pubkey;
+    assert(secp256k1_ctx);
+    if (!secp256k1_ec_pubkey_parse(secp256k1_ctx, &pubkey, public_key, compressed ? 33 : 65)) {
+        return false;
+    }
+
+    size_t out_size    = compressed ? 33 : 65;
+    unsigned int flags = compressed ? SECP256K1_EC_COMPRESSED : SECP256K1_EC_UNCOMPRESSED;
+
+    if (!secp256k1_ec_pubkey_serialize(secp256k1_ctx, output, &out_size,
+                                &pubkey, flags)) {
+	    return false;
+    }
+
+    assert(out_size == compressed ? 33 : 65);
+    return true;
+}
